@@ -62,9 +62,51 @@ void checkSpelling(ifstream& in, Dictionary& dict) {
 		ss << line;
 		
 		string word;
+		string working_word;
+		char c;
 		while (ss >> word) 
         {
-            // TODO: Complete the spell check of each word
+            if(!dict.search(word))
+			{
+            	std::cout << "The word '" + word + "' may be misspelled\n";
+            	std::cout << "Possible corrections:\n";
+            	for(int i = 0; i < word.length() - 1; i++)
+				{
+            		working_word = word;
+            		c = working_word[i];
+            		working_word[i] = working_word[i + 1];
+            		working_word[i + 1] = c;
+            		if(dict.search(working_word))
+            			std::cout << working_word + "\n";
+				}
+				for(int i = 0; i < word.length(); i++)
+				{
+					working_word = word;
+					working_word.erase(i,1);
+					if(dict.search(working_word))
+						std::cout << working_word + "\n";
+				}
+				for(int i = 0; i < word.length(); i++)
+				{
+					for(char ch = 'a'; ch <= 'z'; ch++)
+					{
+						working_word = word;
+						working_word[i] = ch;
+						if (dict.search(working_word))
+							std::cout << working_word + "\n";
+					}
+				}
+				for(int i = 0; i < word.length(); i++)
+				{
+					for(char ch = 'a'; ch <= 'z'; ch++)
+					{
+						working_word = word;
+						working_word.insert(i, string(1, ch));
+						if (dict.search(working_word))
+							std::cout << working_word + "\n";
+					}
+				}
+			}
 		}
 	}
 }

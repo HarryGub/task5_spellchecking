@@ -17,11 +17,12 @@ class hash_function
 {
 public:
 
-    unsigned int operator()( const string& s )  const {
-        
-        
-        // Complete definition
-        
+    unsigned int operator()( const string& s )  const
+    {
+		unsigned int result = 2166136261;
+		for (int i = 0; i != s.length(); ++i)
+			result = (result * 16777619) ^ s[i];
+		return result ^ (s.length() << 1);
     }
 };
 
